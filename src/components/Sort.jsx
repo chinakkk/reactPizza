@@ -1,17 +1,17 @@
 import React from "react";
 
-const Sort = () => {
-  const sortChoice = ['популярности', 'цене', 'алфавиту']
+const Sort = ({sortChoice, setSortChoice}) => {
+  const sortArr = ['популярности', 'цене', 'алфавиту']
   const [sortIsOpened, setSortIsOpened] = React.useState(false)
-  const [selectedChoice, setSelectedChoice] = React.useState(0)
-  const onClickPop = () => {
+
+  const onClickPopular = () => {
     setSortIsOpened(prevState => !prevState)
   }
   const onClickSortChoice = (index) => {
-    setSelectedChoice(index)
+    setSortChoice(index)
     setSortIsOpened(false)
-
   }
+
   return (
       <div className="sort">
         <div className="sort__label">
@@ -28,17 +28,17 @@ const Sort = () => {
             />
           </svg>
           <b>Сортировка по:</b>
-          <span onClick={onClickPop}>{sortChoice[selectedChoice]}</span>
+          <span onClick={onClickPopular}>{sortArr[sortChoice]}</span>
         </div>
         {sortIsOpened && (
             <div className="sort__popup">
               <ul>
-                {sortChoice.map((choice, index) => {
+                {sortArr.map((choice, index) => {
                   return (
                       <li
                           key={index}
                           onClick={() => onClickSortChoice(index)}
-                          className={selectedChoice === index ? 'active' : ''}>{choice}</li>
+                          className={sortChoice === index ? 'active' : ''}>{choice}</li>
 
                   )
                 })}

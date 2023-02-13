@@ -6,8 +6,6 @@ import axios from "axios";
 import {Routes, Route} from "react-router-dom";
 
 import Header from "./components/Header";
-import Categories from "./components/Categories";
-import Sort from "./components/Sort";
 import Menu from "./Pages/Menu";
 import Cart from "./Pages/Cart";
 import NotFound from "./Pages/NotFound/NotFound";
@@ -15,7 +13,6 @@ import NotFound from "./Pages/NotFound/NotFound";
 
 function App() {
 
-  const [items, setItems] = React.useState([])
   const [cartItems,setCartItems]=React.useState([
     {
       "id": 0,
@@ -57,19 +54,6 @@ function App() {
       "rating": 2
     }
   ])
-  const [pageIsLoading, setPageIsLoading] = React.useState(true)
-
-  React.useEffect(() => {
-
-    (async () => {
-
-      const {data} = await axios.get('https://63da0275b28a3148f67cfe09.mockapi.io/items')
-      setItems(data)
-      setPageIsLoading(false)
-
-    })()
-
-  }, [])
 
   return (
 
@@ -80,10 +64,7 @@ function App() {
           <div className="container">
             <Routes>
               <Route path={'/'} element={
-                <Menu
-                    items={items}
-                    pageIsLoading={pageIsLoading}
-                />
+                <Menu/>
               }/>
               <Route path={'/cart'} element={<Cart
                   cartItems={cartItems}
