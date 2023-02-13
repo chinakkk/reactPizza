@@ -28,5 +28,18 @@
     p {
       color: #7b7b7b;
     }
+    @media (max-width: 560px) {
+      div{
+        visibility: hidden;
+        max-width: 5px;
+        max-height: 5px;
+
+      }
+    }
+  }
+  &__cart{
+    span{
+      min-width: 45px;
+    }
   }
 }
