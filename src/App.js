@@ -6,7 +6,7 @@ import axios from "axios";
 import {Routes, Route} from "react-router-dom";
 
 import Header from "./components/Header";
-import Menu from "./Pages/Menu";
+import Menu from "./Pages/Menu/Menu";
 import Cart from "./Pages/Cart";
 import NotFound from "./Pages/NotFound/NotFound";
 
@@ -54,7 +54,6 @@ function App() {
       "rating": 2
     }
   ])
-
   return (
 
       // <Routes>
