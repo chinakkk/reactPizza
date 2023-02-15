@@ -6,6 +6,7 @@ import Sort from "../../components/Sort";
 import axios from "axios";
 import Search from "../../components/Search/Search";
 import s from './Menu.module.scss'
+import Paginate from "../../components/Paginate/Paginate";
 
 const Menu = () => {
   const [sortChoice, setSortChoice] = React.useState(
@@ -18,12 +19,11 @@ const Menu = () => {
   const [pageIsLoading, setPageIsLoading] = React.useState(true)
   const [categoryChoice, setCategoryChoice] = React.useState(0)
   const [searchValue, setSearchValue] = React.useState('')
-
-
+  const [pageChosen, setPageChosen] = React.useState(0)
 
   const filteredItems = searchValue ? items.filter((item) => {
     return (
-        item.name.toLowerCase().includes(searchValue)
+        item.name.toLowerCase().includes(searchValue.toLowerCase())
     )
   }) : items
 
@@ -35,16 +35,14 @@ const Menu = () => {
 
 
       setPageIsLoading(true)
-      const {data} = await axios.get('https://63da0275b28a3148f67cfe09.mockapi.io/items?' +
+      const {data} = await axios.get(`https://63da0275b28a3148f67cfe09.mockapi.io/items?page=${pageChosen + 1}&limit=4&` +
           category + sortBy + sortOrder)
 
       setItems(data)
       setPageIsLoading(false)
     })()
 
-  }, [categoryChoice, sortChoice])
-
-
+  }, [categoryChoice, sortChoice, pageChosen])
 
 
   return (
@@ -68,11 +66,9 @@ const Menu = () => {
               setSearchValue={setSearchValue}
 
           />
-
         </div>
-
         <div className="content__items">
-          {(pageIsLoading ? [...Array(8)] : filteredItems)
+          {(pageIsLoading ? [...Array(4)] : filteredItems)
               .map((item, index) => {
                 return (
                     pageIsLoading ?
@@ -85,6 +81,11 @@ const Menu = () => {
                 )
               })}
         </div>
+        <Paginate
+            setPageChosen={setPageChosen}
+        />
+
+
       </>
   )
 }
