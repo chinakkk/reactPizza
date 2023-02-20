@@ -1,7 +1,11 @@
 import {Link} from "react-router-dom";
+import React from "react";
 import CartItem from "../components/CartItem/CartItem";
+import {Context} from "../App";
 
-const Cart = ({cartItems}) => {
+const Cart = () => {
+
+  const {cartItems} = React.useContext(Context)
   return (
       <div className="content">
         <div className="container container--cart">

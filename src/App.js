@@ -2,18 +2,20 @@ import './App.css';
 import './scss/app.scss'
 
 import React from "react";
-import axios from "axios";
 import {Routes, Route} from "react-router-dom";
 
 import Header from "./components/Header";
-import Menu from "./Pages/Menu/Menu";
-import Cart from "./Pages/Cart";
-import NotFound from "./Pages/NotFound/NotFound";
+import Menu from "./pages/Menu/Menu";
+import Cart from "./pages/Cart";
+import NotFound from "./pages/NotFound/NotFound";
 
+import { useSelector, useDispatch } from 'react-redux';
+
+
+export const Context = React.createContext()
 
 function App() {
-
-  const [cartItems,setCartItems]=React.useState([
+  const [cartItems, setCartItems] = React.useState([
     {
       "id": 0,
       "imageUrl": "https://dodopizza.azureedge.net/static/Img/Products/f035c7f46c0844069722f2bb3ee9f113_584x584.jpeg",
@@ -33,7 +35,7 @@ function App() {
       "price": 245,
       "category": 1,
       "rating": 6
-    },{
+    }, {
       "id": 2,
       "imageUrl": "https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/6652fec1-04df-49d8-8744-232f1032c44b.jpg",
       "name": "Цыпленок барбекю",
@@ -56,26 +58,30 @@ function App() {
   ])
   return (
 
-      // <Routes>
-      <div className="wrapper">
-        <Header/>
-        <div className="content">
-          <div className="container">
-            <Routes>
-              <Route path={'/'} element={
-                <Menu/>
-              }/>
-              <Route path={'/cart'} element={<Cart
-                  cartItems={cartItems}
-              />}/>
-              <Route path={'*'} element={<NotFound/>}/>
-            </Routes>
 
 
+        <div className="wrapper">
+          <Context.Provider value={{cartItems, setCartItems}}>
+
+          <Header/>
+          <div className="content">
+            <div className="container">
+              <Routes>
+                <Route path={'/'} element={
+                  <Menu/>
+                }/>
+                <Route path={'/cart'} element={<Cart
+                />}/>
+                <Route path={'*'} element={<NotFound/>}/>
+              </Routes>
+
+
+            </div>
           </div>
+          </Context.Provider>
+
         </div>
-      </div>
-      // </Routes>
+
 
   );
 }

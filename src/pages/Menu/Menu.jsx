@@ -17,7 +17,7 @@ const Menu = () => {
   )
   const [items, setItems] = React.useState([])
   const [pageIsLoading, setPageIsLoading] = React.useState(true)
-  const [categoryChoice, setCategoryChoice] = React.useState(0)
+  const [categoryValue, setCategoryValue] = React.useState(0)
   const [searchValue, setSearchValue] = React.useState('')
   const [pageChosen, setPageChosen] = React.useState(0)
 
@@ -29,7 +29,7 @@ const Menu = () => {
 
   React.useEffect(() => {
     (async () => {
-      const category = categoryChoice ? ('category=' + categoryChoice) : ''
+      const category = categoryValue ? ('category=' + categoryValue) : ''
       const sortBy = '&sortBy=' + sortChoice.sortProperty.replace('-', '')
       const sortOrder = '&order=' + (sortChoice.sortProperty.includes('-') ? 'desc' : 'asc')
 
@@ -42,7 +42,7 @@ const Menu = () => {
       setPageIsLoading(false)
     })()
 
-  }, [categoryChoice, sortChoice, pageChosen])
+  }, [categoryValue, sortChoice, pageChosen])
 
 
   return (
@@ -51,8 +51,8 @@ const Menu = () => {
         <div className="content__top">
 
           <Categories
-              categoryChoice={categoryChoice}
-              setCategoryChoice={setCategoryChoice}
+              categoryChoice={categoryValue}
+              setCategoryChoice={setCategoryValue}
           />
           <Sort
               sortChoice={sortChoice}
