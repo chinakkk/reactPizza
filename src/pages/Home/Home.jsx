@@ -1,25 +1,26 @@
+import s from './Home.module.scss'
+
+import axios from "axios";
+import React from "react";
+
 import SkeletonPizzaBlock from "../../components/SkeletonPizzaBlock";
 import PizzaBlock from "../../components/PizzaBlock";
-import React from "react";
 import Categories from "../../components/Categories";
 import Sort from "../../components/Sort";
-import axios from "axios";
 import Search from "../../components/Search/Search";
-import s from './Menu.module.scss'
 import Paginate from "../../components/Paginate/Paginate";
 
-const Menu = () => {
-  const [sortChoice, setSortChoice] = React.useState(
-      {
-        name: 'популярности(по возрастанию)',
-        sortProperty: 'rating'
-      }
-  )
+import {setCategoryValue, setSortValue, setPageChosen} from '../../redux/slices/filterSlice'
+import {useSelector, useDispatch} from "react-redux";
+
+
+const Home = () => {
   const [items, setItems] = React.useState([])
   const [pageIsLoading, setPageIsLoading] = React.useState(true)
-  const [categoryValue, setCategoryValue] = React.useState(0)
   const [searchValue, setSearchValue] = React.useState('')
-  const [pageChosen, setPageChosen] = React.useState(0)
+
+  const dispatch = useDispatch()
+  const {categoryValue, sortValue, pageChosen} = useSelector((state) => state.filterSlice)
 
   const filteredItems = searchValue ? items.filter((item) => {
     return (
@@ -30,8 +31,8 @@ const Menu = () => {
   React.useEffect(() => {
     (async () => {
       const category = categoryValue ? ('category=' + categoryValue) : ''
-      const sortBy = '&sortBy=' + sortChoice.sortProperty.replace('-', '')
-      const sortOrder = '&order=' + (sortChoice.sortProperty.includes('-') ? 'desc' : 'asc')
+      const sortBy = '&sortBy=' + sortValue.sortProperty.replace('-', '')
+      const sortOrder = '&order=' + (sortValue.sortProperty.includes('-') ? 'desc' : 'asc')
 
 
       setPageIsLoading(true)
@@ -42,8 +43,11 @@ const Menu = () => {
       setPageIsLoading(false)
     })()
 
-  }, [categoryValue, sortChoice, pageChosen])
+  }, [categoryValue, sortValue, pageChosen])
 
+  const onChangePage = (index) => {
+    dispatch(setPageChosen(index))
+  }
 
   return (
       <>
@@ -52,12 +56,9 @@ const Menu = () => {
 
           <Categories
               categoryChoice={categoryValue}
-              setCategoryChoice={setCategoryValue}
+              setCategoryChoice={(value) => dispatch(setCategoryValue(value))}
           />
-          <Sort
-              sortChoice={sortChoice}
-              setSortChoice={setSortChoice}
-          />
+          <Sort/>
         </div>
         <div className={s.search}>
           <h2 className="content__title">Все пиццы</h2>
@@ -82,11 +83,11 @@ const Menu = () => {
               })}
         </div>
         <Paginate
-            setPageChosen={setPageChosen}
+            setPageChosen={onChangePage}
         />
 
 
       </>
   )
 }
-export default Menu;
+export default Home;
