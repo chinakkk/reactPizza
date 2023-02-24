@@ -30,19 +30,31 @@ const Sort = () => {
     }
   ]
   const [sortIsOpened, setSortIsOpened] = React.useState(false)
-  const dispatch=useDispatch()
-  const sortValue=useSelector((value) => value.filterSlice.sortValue)
+  const dispatch = useDispatch()
+  const sortValue = useSelector((value) => value.filterSlice.sortValue)
+  const sortRef = React.useRef()
 
-  const onClickPopular = () => {
+  const onClickSort = () => {
     setSortIsOpened(prevState => !prevState)
   }
   const onClickSortValue = (index) => {
     dispatch(setSortValue(sortArr[index]))
     setSortIsOpened(false)
   }
+  React.useEffect(() => {
+
+    const clickOutsidePop = (event) => {
+      if (!event.composedPath().includes(sortRef.current))
+        setSortIsOpened(false)
+    }
+    document.body.addEventListener('click', clickOutsidePop)
+
+    return () => document.body.removeEventListener('click', clickOutsidePop)
+
+  }, [])
 
   return (
-      <div className="sort">
+      <div ref={sortRef} className="sort">
         <div className="sort__label">
           <svg
               width="10"
@@ -57,7 +69,7 @@ const Sort = () => {
             />
           </svg>
           <b>Сортировка по:</b>
-          <span onClick={onClickPopular}>{sortValue.name}</span>
+          <span onClick={onClickSort}>{sortValue.name}</span>
         </div>
         {sortIsOpened && (
             <div className="sort__popup">

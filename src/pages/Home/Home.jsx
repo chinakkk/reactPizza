@@ -10,23 +10,27 @@ import Sort from "../../components/Sort";
 import Search from "../../components/Search/Search";
 import Paginate from "../../components/Paginate/Paginate";
 
-import {setCategoryValue, setSortValue, setPageChosen} from '../../redux/slices/filterSlice'
+import {setCategoryValue, setPageChosen} from '../../redux/slices/filterSlice'
 import {useSelector, useDispatch} from "react-redux";
 
 
 const Home = () => {
+  const dispatch = useDispatch()
+  const {categoryValue, sortValue, pageChosen} = useSelector((state) => state.filterSlice)
+
   const [items, setItems] = React.useState([])
   const [pageIsLoading, setPageIsLoading] = React.useState(true)
   const [searchValue, setSearchValue] = React.useState('')
-
-  const dispatch = useDispatch()
-  const {categoryValue, sortValue, pageChosen} = useSelector((state) => state.filterSlice)
 
   const filteredItems = searchValue ? items.filter((item) => {
     return (
         item.name.toLowerCase().includes(searchValue.toLowerCase())
     )
   }) : items
+
+  const onChangePage = (index) => {
+    dispatch(setPageChosen(index))
+  }
 
   React.useEffect(() => {
     (async () => {
@@ -45,9 +49,6 @@ const Home = () => {
 
   }, [categoryValue, sortValue, pageChosen])
 
-  const onChangePage = (index) => {
-    dispatch(setPageChosen(index))
-  }
 
   return (
       <>

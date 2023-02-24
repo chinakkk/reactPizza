@@ -1,11 +1,12 @@
 import {Link} from "react-router-dom";
 import React from "react";
 import CartItem from "../components/CartItem/CartItem";
-import {Context} from "../App";
+import {useSelector,useDispatch} from "react-redux";
+import {clearCart} from "../redux/slices/cartSlice";
 
 const Cart = () => {
-
-  const {cartItems} = React.useContext(Context)
+  const {cartItems,totalPrice} = useSelector((state) => state.cartSlice)
+  const dispatch=useDispatch()
   return (
       <div className="content">
         <div className="container container--cart">
@@ -41,7 +42,7 @@ const Cart = () => {
                             strokeLinejoin="round"></path>
                     </svg>
 
-                    <span>Очистить корзину</span>
+                    <span onClick={() => dispatch(clearCart())}>Очистить корзину</span>
                   </div>
                 </div>
                 <div className="cart__items">
@@ -59,8 +60,8 @@ const Cart = () => {
                 </div>
                 <div className="cart__bottom">
                   <div className="cart__bottom-details">
-                    <span> Всего пицц: <b>{cartItems.length} шт.</b> </span>
-                    <span> Сумма заказа: <b>{cartItems.reduce((sum,item) => sum+item.price,0)} ₽</b> </span>
+                    <span> Всего пицц: <b>{cartItems.reduce((sum,cartItem) => cartItem.count+sum,0)} шт.</b> </span>
+                    <span> Сумма заказа: <b>{totalPrice} ₽</b> </span>
                   </div>
                   <div className="cart__bottom-buttons">
                     <Link to="/" className="button button--outline button--add go-back-btn">
@@ -79,7 +80,7 @@ const Cart = () => {
               </div>
               :
               <div className="cart cart--empty">
-                <h2>Корзина пустая <icon>😕</icon></h2>
+                <h2>Корзина пустая</h2>
                 <p>
                   Вероятней всего, вы не заказывали ещё пиццу.<br/>
                   Для того, чтобы заказать пиццу, перейди на главную страницу.

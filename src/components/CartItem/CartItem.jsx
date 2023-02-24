@@ -1,4 +1,17 @@
-const CartItem = ({name,price,imageUrl}) => {
+import {useDispatch} from "react-redux";
+import {removeFromCart, minusPizzaInCart, plusPizzaInCart} from "../../redux/slices/cartSlice";
+
+const CartItem = ({id, name, price, imageUrl, count}) => {
+  const dispatch = useDispatch()
+  const onClickSubtract = () => {
+    dispatch(minusPizzaInCart(id))
+  }
+  const onClickAdd = () => {
+    dispatch(plusPizzaInCart(id))
+  }
+  const onClickRemove = () => {
+    dispatch(removeFromCart(id))
+  }
   return (
       <div className="cart__item">
         <div className="cart__item-img">
@@ -11,7 +24,7 @@ const CartItem = ({name,price,imageUrl}) => {
           <p>тонкое тесто, 26 см.</p>
         </div>
         <div className="cart__item-count">
-          <div className="button button--outline button--circle cart__item-count-minus">
+          <div onClick={onClickSubtract} className="button button--outline button--circle cart__item-count-minus">
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
               <path
@@ -23,8 +36,8 @@ const CartItem = ({name,price,imageUrl}) => {
             </svg>
 
           </div>
-          <b>2</b>
-          <div className="button button--outline button--circle cart__item-count-plus">
+          <b>{count}</b>
+          <div onClick={onClickAdd} className="button button--outline button--circle cart__item-count-plus">
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
               <path
@@ -38,10 +51,10 @@ const CartItem = ({name,price,imageUrl}) => {
           </div>
         </div>
         <div className="cart__item-price">
-          <b>{price} ₽</b>
+          <b>{price * count} ₽</b>
         </div>
         <div className="cart__item-remove">
-          <div className="button button--outline button--circle">
+          <div onClick={onClickRemove} className="button button--outline button--circle">
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
               <path

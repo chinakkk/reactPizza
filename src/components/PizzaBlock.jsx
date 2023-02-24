@@ -1,7 +1,10 @@
 import React from "react";
 import SkeletonPizzaBlock from "./SkeletonPizzaBlock";
+import {addToCart} from "../redux/slices/cartSlice";
+import {useSelector, useDispatch} from "react-redux";
 
 const PizzaBlock = ({
+                      id,
                       imageUrl,
                       name,
                       types,
@@ -11,8 +14,16 @@ const PizzaBlock = ({
                       rating,
                       pageIsLoading = false
                     }) => {
+  const dispatch = useDispatch()
+  const {cartItems} = useSelector((state) => state.cartSlice)
+
   const [pizzaType, setPizzaType] = React.useState(types[0])
   const [pizzaSize, setPizzaSize] = React.useState(sizes[0])
+  const findedPizza = cartItems.find((cartItem) => cartItem.id === id)
+
+  const onClickAddPizza = () => {
+    dispatch(addToCart({id, name, price, imageUrl}))
+  }
   return (
       <div className="pizza-block-wrapper">
         <div className="pizza-block">
@@ -51,7 +62,7 @@ const PizzaBlock = ({
                 </div>
                 <div className="pizza-block__bottom">
                   <div className="pizza-block__price">от {price} ₽</div>
-                  <div className="button button--outline button--add">
+                  <div onClick={onClickAddPizza} className="button button--outline button--add">
                     <svg
                         width="12"
                         height="12"
@@ -65,7 +76,7 @@ const PizzaBlock = ({
                       />
                     </svg>
                     <span>Добавить</span>
-                    <i>0</i>
+                    {findedPizza && <i>{findedPizza.count}</i>}
                   </div>
                 </div>
               </>
