@@ -12,14 +12,15 @@ import Paginate from "../../components/Paginate/Paginate";
 
 import {setCategoryValue, setPageChosen} from '../../redux/slices/filterSlice'
 import {useSelector, useDispatch} from "react-redux";
+import {setPageIsLoading, sendingAxiosPizza} from "../../redux/slices/pizzaSlice";
 
 
 const Home = () => {
   const dispatch = useDispatch()
   const {categoryValue, sortValue, pageChosen} = useSelector((state) => state.filterSlice)
+  const {items,pageIsLoading} = useSelector((state) => state.pizzaSlice)
 
-  const [items, setItems] = React.useState([])
-  const [pageIsLoading, setPageIsLoading] = React.useState(true)
+  // const [pageIsLoading, setPageIsLoading] = React.useState(true)
   const [searchValue, setSearchValue] = React.useState('')
 
   const filteredItems = searchValue ? items.filter((item) => {
@@ -38,13 +39,18 @@ const Home = () => {
       const sortBy = '&sortBy=' + sortValue.sortProperty.replace('-', '')
       const sortOrder = '&order=' + (sortValue.sortProperty.includes('-') ? 'desc' : 'asc')
 
+      try {
+        dispatch(setPageIsLoading(true))
+        // const {data} = await axios.get(`https://63da0275b28a3148f67cfe09.mockapi.io/items?page=${pageChosen + 1}&limit=4&` + category + sortBy + sortOrder)
+        // dispatch(setItems(data))
+        dispatch(sendingAxiosPizza({category, sortBy, sortOrder, pageChosen}))
+      } catch (error) {
+        console.log('Не удалось загрузить пиццы', error)
+        alert('Не удалось загрузить пиццы')
+      } finally {
+        dispatch(setPageIsLoading(false))
+      }
 
-      setPageIsLoading(true)
-      const {data} = await axios.get(`https://63da0275b28a3148f67cfe09.mockapi.io/items?page=${pageChosen + 1}&limit=4&` +
-          category + sortBy + sortOrder)
-
-      setItems(data)
-      setPageIsLoading(false)
     })()
 
   }, [categoryValue, sortValue, pageChosen])
