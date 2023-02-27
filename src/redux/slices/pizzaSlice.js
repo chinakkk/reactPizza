@@ -10,7 +10,7 @@ export const sendingAxiosPizza = createAsyncThunk('pizza/sendingAxiosPizzaStatus
 
 const initialState = {
   items: [],
-  pageIsLoading:true
+  status:'loading'
 }
 
 const pizzaSlice = createSlice({
@@ -19,19 +19,27 @@ const pizzaSlice = createSlice({
   reducers: {
     setItems(state, action) {
       state.items = action.payload
-    },
-    setPageIsLoading(state,action){
-      state.isLoading=action.payload
     }
 
   },
   extraReducers: {
+    [sendingAxiosPizza.pending]:(state) =>{
+      state.items=[]
+      state.status='loading'
+    },
     [sendingAxiosPizza.fulfilled]:(state,action) =>{
       state.items=action.payload
-      state.pageIsLoading=false
+      state.status='success'
     },
+    [sendingAxiosPizza.rejected]:(state) =>{
+      state.status='error'
+      state.items=[]
+
+    },
+
+
   },
 })
 
-export const {setItems,setPageIsLoading} = pizzaSlice.actions
+export const {setItems,status} = pizzaSlice.actions
 export default pizzaSlice.reducer

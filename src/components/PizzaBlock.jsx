@@ -12,7 +12,7 @@ const PizzaBlock = ({
                       price,
                       category,
                       rating,
-                      pageIsLoading = false
+                      status = 'success'
                     }) => {
   const dispatch = useDispatch()
   const {cartItems} = useSelector((state) => state.cartSlice)
@@ -27,7 +27,7 @@ const PizzaBlock = ({
   return (
       <div className="pizza-block-wrapper">
         <div className="pizza-block">
-          {!pageIsLoading ? (
+          {status!=='loading' ? (
               <>
                 <img
                     className="pizza-block__image"
