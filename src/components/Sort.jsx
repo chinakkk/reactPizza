@@ -1,6 +1,6 @@
 import React from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {setSortValue} from "../redux/slices/filterSlice";
+import {filterSelector, setSortValue} from "../redux/slices/filterSlice";
 
 const Sort = () => {
   const sortArr = [
@@ -31,7 +31,7 @@ const Sort = () => {
   ]
   const [sortIsOpened, setSortIsOpened] = React.useState(false)
   const dispatch = useDispatch()
-  const sortValue = useSelector((value) => value.filterSlice.sortValue)
+  const {sortValue} = useSelector(filterSelector)
   const sortRef = React.useRef()
 
   const onClickSort = () => {

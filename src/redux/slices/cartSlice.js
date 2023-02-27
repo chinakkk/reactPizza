@@ -1,5 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import cartItem from "../../components/CartItem/CartItem";
+import {useSelector} from "react-redux";
 
 const initialState = {
   cartItems: [
@@ -12,7 +13,7 @@ const initialState = {
       price: 275,
       category: 2,
       rating: 2,
-      count:1
+      count: 1
     },
   ],
   totalPrice: 0
@@ -56,6 +57,14 @@ const cartSlice = createSlice({
 
   }
 })
+
+export const cartSelector = (state) => state.cartSlice
+export const cartSelectorFindById = (id) => {
+  return (state) => {
+    return state.cartSlice.cartItems.find((cartItem) => cartItem.id === id)
+  }
+}
+
 
 export const {addToCart, removeFromCart, clearCart, minusPizzaInCart, plusPizzaInCart} = cartSlice.actions
 export default cartSlice.reducer

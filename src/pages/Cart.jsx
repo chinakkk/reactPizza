@@ -2,10 +2,10 @@ import {Link} from "react-router-dom";
 import React from "react";
 import CartItem from "../components/CartItem/CartItem";
 import {useSelector, useDispatch} from "react-redux";
-import {clearCart} from "../redux/slices/cartSlice";
+import {cartSelector, clearCart} from "../redux/slices/cartSlice";
 
 const Cart = () => {
-  const {cartItems, totalPrice} = useSelector((state) => state.cartSlice)
+  const {cartItems} = useSelector(cartSelector)
   const dispatch = useDispatch()
 
   if (cartItems.length===0) {

@@ -5,6 +5,7 @@ import debounce from 'lodash.debounce'
 
 const Search = ({searchValue, setSearchValue}) => {
 
+
   const [localSearchValue, setLocalSearchValue] = React.useState('')
 
   const inputRef = React.useRef()

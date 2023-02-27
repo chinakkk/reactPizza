@@ -1,6 +1,6 @@
 import React from "react";
 import SkeletonPizzaBlock from "./SkeletonPizzaBlock";
-import {addToCart} from "../redux/slices/cartSlice";
+import {addToCart, cartSelector, cartSelectorFindById} from "../redux/slices/cartSlice";
 import {useSelector, useDispatch} from "react-redux";
 
 const PizzaBlock = ({
@@ -15,11 +15,10 @@ const PizzaBlock = ({
                       status = 'success'
                     }) => {
   const dispatch = useDispatch()
-  const {cartItems} = useSelector((state) => state.cartSlice)
+  const findedPizza = useSelector(cartSelectorFindById(id)) 
 
   const [pizzaType, setPizzaType] = React.useState(types[0])
   const [pizzaSize, setPizzaSize] = React.useState(sizes[0])
-  const findedPizza = cartItems.find((cartItem) => cartItem.id === id)
 
   const onClickAddPizza = () => {
     dispatch(addToCart({id, name, price, imageUrl}))

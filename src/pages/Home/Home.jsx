@@ -9,16 +9,16 @@ import Sort from "../../components/Sort";
 import Search from "../../components/Search/Search";
 import Paginate from "../../components/Paginate/Paginate";
 
-import {setCategoryValue, setPageChosen} from '../../redux/slices/filterSlice'
+import {filterSelector, setCategoryValue, setPageChosen, setSearchValue} from '../../redux/slices/filterSlice'
 import {useSelector, useDispatch} from "react-redux";
 import {sendingAxiosPizza} from "../../redux/slices/pizzaSlice";
 
 
 const Home = () => {
   const dispatch = useDispatch()
-  const {categoryValue, sortValue, pageChosen} = useSelector((state) => state.filterSlice)
+  const {categoryValue, sortValue, pageChosen} = useSelector(filterSelector)
+  const {searchValue}= useSelector((state) => state.filterSlice)
   const {items, status} = useSelector((state) => state.pizzaSlice)
-  const [searchValue, setSearchValue] = React.useState('')
   const filteredItems = searchValue ? items.filter((item) => {
     return (
         item.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -70,7 +70,7 @@ const Home = () => {
                   <h2 className="content__title">Все пиццы</h2>
                   <Search
                       searchValue={searchValue}
-                      setSearchValue={setSearchValue}
+                      setSearchValue={(value) =>dispatch(setSearchValue(value)) }
                   />
                 </div>
                 <div className="content__items">
