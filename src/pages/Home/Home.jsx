@@ -9,10 +9,9 @@ import Sort from "../../components/Sort";
 import Search from "../../components/Search/Search";
 import Paginate from "../../components/Paginate/Paginate";
 
+import {sendingAxiosPizza} from "../../redux/slices/pizzaSlice";
 import {filterSelector, setCategoryValue, setPageChosen, setSearchValue} from '../../redux/slices/filterSlice'
 import {useSelector, useDispatch} from "react-redux";
-import {sendingAxiosPizza} from "../../redux/slices/pizzaSlice";
-
 
 const Home = () => {
   const dispatch = useDispatch()

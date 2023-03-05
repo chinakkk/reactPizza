@@ -68,3 +68,9 @@ export const cartSelectorFindById = (id) => {
 
 export const {addToCart, removeFromCart, clearCart, minusPizzaInCart, plusPizzaInCart} = cartSlice.actions
 export default cartSlice.reducer
+
+
+
+
+
+
