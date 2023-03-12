@@ -1,17 +1,22 @@
-import s from './Search.module.scss'
-import React from "react";
+import styles from './Search.module.scss'
+import React, {FC} from "react";
 import debounce from 'lodash.debounce'
 
 
-const Search = ({searchValue, setSearchValue}) => {
+type SearchProps={
+    searchValue:string;
+    setSearchValue:any;
+}
+
+const Search:FC <SearchProps>= ({searchValue, setSearchValue}) => {
 
 
   const [localSearchValue, setLocalSearchValue] = React.useState('')
 
-  const inputRef = React.useRef()
+  const inputRef = React.useRef<HTMLInputElement>(null)
   const onClickClear = () => {
     setSearchValue('')
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }
 
   const debounceSearchValue = React.useCallback(
@@ -20,26 +25,26 @@ const Search = ({searchValue, setSearchValue}) => {
       }, 500), []
   )
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event:any) => {
     setLocalSearchValue(event.target.value)
     debounceSearchValue(event.target.value)
   }
 
   return (
-      <div className={s.root}>
-        <svg className={s.iconSearch} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30px" height="30px">
+      <div className={styles.root}>
+        <svg className={styles.iconSearch} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30px" height="30px">
           <path
               d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"/>
         </svg>
         <input ref={inputRef}
                value={localSearchValue}
                onChange={(event) => onChangeInput(event)}
-               className={s.input}
+               className={styles.input}
                placeholder={'Поиск...'}/>
 
         {searchValue &&
             <svg onClick={onClickClear}
-                 className={s.iconClose}
+                 className={styles.iconClose}
                  xmlns="http://www.w3.org/2000/svg"
                  viewBox="0 0 50 50" width="50px" height="50px">
               <path

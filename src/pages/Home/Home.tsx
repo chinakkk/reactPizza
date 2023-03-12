@@ -1,6 +1,6 @@
 import s from './Home.module.scss'
 
-import React from "react";
+import React, {FC} from "react";
 
 import SkeletonPizzaBlock from "../../components/SkeletonPizzaBlock";
 import PizzaBlock from "../../components/PizzaBlock";
@@ -13,29 +13,30 @@ import {sendingAxiosPizza} from "../../redux/slices/pizzaSlice";
 import {filterSelector, setCategoryValue, setPageChosen, setSearchValue} from '../../redux/slices/filterSlice'
 import {useSelector, useDispatch} from "react-redux";
 
-const Home = () => {
+const Home:FC = () => {
   const dispatch = useDispatch()
   const {categoryValue, sortValue, pageChosen} = useSelector(filterSelector)
-  const {searchValue}= useSelector((state) => state.filterSlice)
-  const {items, status} = useSelector((state) => state.pizzaSlice)
-  const filteredItems = searchValue ? items.filter((item) => {
+  const {searchValue} = useSelector((state:any) => state.filterSlice)
+  const {items, status} = useSelector((state:any) => state.pizzaSlice)
+  const filteredItems = searchValue ? items.filter((item:any) => {
     return (
         item.name.toLowerCase().includes(searchValue.toLowerCase())
     )
   }) : items
 
-  const onChangePage = (index) => {
+  const onChangePage = (index:number) => {
     dispatch(setPageChosen(index))
   }
 
 
   React.useEffect(() => {
     (async () => {
-      const category = categoryValue ? ('category=' + categoryValue) : ''
-      const sortBy = '&sortBy=' + sortValue.sortProperty.replace('-', '')
-      const sortOrder = '&order=' + (sortValue.sortProperty.includes('-') ? 'desc' : 'asc')
+      const category:string = categoryValue ? ('category=' + categoryValue) : ''
+      const sortBy:string = '&sortBy=' + sortValue.sortProperty.replace('-', '')
+      const sortOrder:string = '&order=' + (sortValue.sortProperty.includes('-') ? 'desc' : 'asc')
 
 
+      // @ts-ignore
       dispatch(sendingAxiosPizza({category, sortBy, sortOrder, pageChosen}))
 
     })()
@@ -49,7 +50,7 @@ const Home = () => {
 
           <Categories
               categoryChoice={categoryValue}
-              setCategoryChoice={(value) => dispatch(setCategoryValue(value))}
+              setCategoryChoice={(value:number) => dispatch(setCategoryValue(value))}
           />
           <Sort/>
         </div>
@@ -69,12 +70,12 @@ const Home = () => {
                   <h2 className="content__title">Все пиццы</h2>
                   <Search
                       searchValue={searchValue}
-                      setSearchValue={(value) =>dispatch(setSearchValue(value)) }
+                      setSearchValue={(value:string) => dispatch(setSearchValue(value))}
                   />
                 </div>
                 <div className="content__items">
                   {(status === 'loading' ? [...Array(4)] : filteredItems)
-                      .map((item, index) => {
+                      .map((item:any, index:number) => {
                         return (
                             status === 'loading' ?
                                 <SkeletonPizzaBlock key={index}/> :
@@ -90,8 +91,6 @@ const Home = () => {
                     setPageChosen={onChangePage}
                 /></>
         }
-
-
       </>
   )
 }

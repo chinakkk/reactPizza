@@ -1,8 +1,8 @@
-import React from "react";
+import React, {FC} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {filterSelector, setSortValue} from "../redux/slices/filterSlice";
 
-const Sort = () => {
+const Sort :FC = () => {
   const sortArr = [
     {
       name: 'популярности(по возрастанию)',
@@ -32,18 +32,18 @@ const Sort = () => {
   const [sortIsOpened, setSortIsOpened] = React.useState(false)
   const dispatch = useDispatch()
   const {sortValue} = useSelector(filterSelector)
-  const sortRef = React.useRef()
+  const sortRef = React.useRef<HTMLDivElement>(null)
 
   const onClickSort = () => {
     setSortIsOpened(prevState => !prevState)
   }
-  const onClickSortValue = (index) => {
+  const onClickSortValue = (index:number) => {
     dispatch(setSortValue(sortArr[index]))
     setSortIsOpened(false)
   }
   React.useEffect(() => {
 
-    const clickOutsidePop = (event) => {
+    const clickOutsidePop = (event:any) => {
       if (!event.composedPath().includes(sortRef.current))
         setSortIsOpened(false)
     }

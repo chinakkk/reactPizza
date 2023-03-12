@@ -4,12 +4,12 @@ import './scss/app.scss'
 import React from "react";
 import {Routes, Route} from "react-router-dom";
 
-import Header from "./components/Header";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound/NotFound";
 import FullPizza from "./pages/FullPizza/FullPizza";
 import MainLayout from "./layouts/MainLayout";
+import Header from "./components/Header";
 
 function App() {
   return (
@@ -23,6 +23,7 @@ function App() {
           </Route>
         </Routes>
       </div>
+
 
 
   );

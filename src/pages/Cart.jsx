@@ -7,22 +7,23 @@ import {cartSelector, clearCart} from "../redux/slices/cartSlice";
 const Cart = () => {
   const {cartItems} = useSelector(cartSelector)
   const dispatch = useDispatch()
-
-  if (cartItems.length===0) {
+  const cartIsEmpty=cartItems.length === 0
+ 
+  if (cartIsEmpty) {
     return (
-          <div className="container container--cart">
-            <div className="cart cart--empty">
-              <h2>Корзина пустая</h2>
-              <p>
-                Вероятней всего, вы не заказывали ещё пиццу.<br/>
-                Для того, чтобы заказать пиццу, перейди на главную страницу.
-              </p>
-              <img src="/img/empty-cart.png" alt="Empty cart"/>
-              <Link to="/" className="button button--black">
-                <span>Вернуться назад</span>
-              </Link>
-            </div>
+        <div className="container container--cart">
+          <div className="cart cart--empty">
+            <h2>Корзина пустая</h2>
+            <p>
+              Вероятней всего, вы не заказывали ещё пиццу.<br/>
+              Для того, чтобы заказать пиццу, перейди на главную страницу.
+            </p>
+            <img src="/img/empty-cart.png" alt="Empty cart"/>
+            <Link to="/" className="button button--black">
+              <span>Вернуться назад</span>
+            </Link>
           </div>
+        </div>
 
     )
   }
@@ -77,7 +78,7 @@ const Cart = () => {
             <div className="cart__bottom">
               <div className="cart__bottom-details">
                 <span> Всего пицц: <b>{cartItems.reduce((sum, cartItem) => cartItem.count + sum, 0)} шт.</b> </span>
-                <span> Сумма заказа: <b>{cartItems.reduce((sum,cartItem) => cartItem.price*cartItem.count+sum,0)} ₽</b> </span>
+                <span> Сумма заказа: <b>{cartItems.reduce((sum, cartItem) => cartItem.price * cartItem.count + sum, 0)} ₽</b> </span>
               </div>
               <div className="cart__bottom-buttons">
                 <Link to="/" className="button button--outline button--add go-back-btn">

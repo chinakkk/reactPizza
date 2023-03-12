@@ -1,7 +1,8 @@
 import {Link} from "react-router-dom";
 import s from './NotFound.module.scss'
+import {FC} from "react";
 
-const NotFound = () => {
+const NotFound:FC = () => {
   return (
       <div className={s.content}>
 
@@ -16,3 +17,4 @@ const NotFound = () => {
   )
 }
 export default NotFound;
+

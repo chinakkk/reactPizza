@@ -1,7 +1,7 @@
-import React from "react"
+import React, {FC} from "react"
 import ContentLoader from "react-content-loader"
 
-const SkeletonPizzaBlock = (props) => (
+const SkeletonPizzaBlock:FC = (props) => (
     <ContentLoader
         className={'pizza-block'}
         speed={2}
