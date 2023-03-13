@@ -1,10 +1,10 @@
 import {Link} from "react-router-dom";
-import React from "react";
+import React, {FC} from "react";
 import CartItem from "../components/CartItem/CartItem";
 import {useSelector, useDispatch} from "react-redux";
 import {cartSelector, clearCart} from "../redux/slices/cartSlice";
 
-const Cart = () => {
+const Cart:FC = () => {
   const {cartItems} = useSelector(cartSelector)
   const dispatch = useDispatch()
   const cartIsEmpty=cartItems.length === 0
@@ -64,7 +64,7 @@ const Cart = () => {
             </div>
             <div className="cart__items">
 
-              {cartItems.map((item) => {
+              {cartItems.map((item:any) => {
                 return (
                     <CartItem
                         key={item.id}
@@ -77,8 +77,8 @@ const Cart = () => {
             </div>
             <div className="cart__bottom">
               <div className="cart__bottom-details">
-                <span> Всего пицц: <b>{cartItems.reduce((sum, cartItem) => cartItem.count + sum, 0)} шт.</b> </span>
-                <span> Сумма заказа: <b>{cartItems.reduce((sum, cartItem) => cartItem.price * cartItem.count + sum, 0)} ₽</b> </span>
+                <span> Всего пицц: <b>{cartItems.reduce((sum:number, cartItem:any) => cartItem.count + sum, 0)} шт.</b> </span>
+                <span> Сумма заказа: <b>{cartItems.reduce((sum:number, cartItem:any) => cartItem.price * cartItem.count + sum, 0)} ₽</b> </span>
               </div>
               <div className="cart__bottom-buttons">
                 <Link to="/" className="button button--outline button--add go-back-btn">

@@ -3,7 +3,7 @@ import React, {FC} from "react";
 import s from './Paginate.module.scss'
 
 type PaginateProps = {
-    setPageChosen: any;
+    setPageChosen: (index: number) => void;
 }
 
 const Paginate: FC<PaginateProps> = ({setPageChosen}) => {

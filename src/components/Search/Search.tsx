@@ -1,11 +1,11 @@
 import styles from './Search.module.scss'
-import React, {FC} from "react";
+import React, {ChangeEvent, FC} from "react";
 import debounce from 'lodash.debounce'
 
 
 type SearchProps={
     searchValue:string;
-    setSearchValue:any;
+    setSearchValue:(value:string) => void;
 }
 
 const Search:FC <SearchProps>= ({searchValue, setSearchValue}) => {
@@ -25,7 +25,7 @@ const Search:FC <SearchProps>= ({searchValue, setSearchValue}) => {
       }, 500), []
   )
 
-  const onChangeInput = (event:any) => {
+  const onChangeInput = (event:ChangeEvent<HTMLInputElement>) => {
     setLocalSearchValue(event.target.value)
     debounceSearchValue(event.target.value)
   }

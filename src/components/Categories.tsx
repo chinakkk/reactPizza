@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 
 type CategoriesProps = {
-    setCategoryChoice: any;
+    setCategoryChoice: (value: number) => void;
     categoryChoice: number;
 }
 
