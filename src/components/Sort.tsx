@@ -1,9 +1,9 @@
 import React, {FC} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {filterSelector, setSortValue} from "../redux/slices/filterSlice";
+import {filterSelector, setSortValue, sortValue} from "../redux/slices/filterSlice";
 
 const Sort: FC = () => {
-    const sortArr = [
+    const sortArr :sortValue[]= [
         {
             name: 'популярности(по возрастанию)',
             sortProperty: 'rating'

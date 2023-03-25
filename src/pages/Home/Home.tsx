@@ -9,16 +9,18 @@ import Sort from "../../components/Sort";
 import Search from "../../components/Search/Search";
 import Paginate from "../../components/Paginate/Paginate";
 
-import {sendingAxiosPizza} from "../../redux/slices/pizzaSlice";
+import {pizzaItemType, sendingAxiosPizza} from "../../redux/slices/pizzaSlice";
 import {filterSelector, setCategoryValue, setPageChosen, setSearchValue} from '../../redux/slices/filterSlice'
-import {useSelector, useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
+import {RootState, useAppDispatch} from "../../redux/store";
 
 const Home:FC = () => {
-  const dispatch = useDispatch()
+
+  const dispatch = useAppDispatch()
   const {categoryValue, sortValue, pageChosen} = useSelector(filterSelector)
-  const {searchValue} = useSelector((state:any) => state.filterSlice)
-  const {items, status} = useSelector((state:any) => state.pizzaSlice)
-  const filteredItems = searchValue ? items.filter((item:any) => {
+  const {searchValue} = useSelector((state:RootState) => state.filterSlice)
+  const {items, status} = useSelector((state:RootState) => state.pizzaSlice)
+  const filteredItems = searchValue ? items.filter((item:pizzaItemType) => {
     return (
         item.name.toLowerCase().includes(searchValue.toLowerCase())
     )
@@ -36,8 +38,7 @@ const Home:FC = () => {
       const sortOrder:string = '&order=' + (sortValue.sortProperty.includes('-') ? 'desc' : 'asc')
 
 
-      // @ts-ignore
-      dispatch(sendingAxiosPizza({category, sortBy, sortOrder, pageChosen}))
+      dispatch(sendingAxiosPizza({category, sortBy, sortOrder, pageChosen:String(pageChosen)}))
 
     })()
 
@@ -75,13 +76,13 @@ const Home:FC = () => {
                 </div>
                 <div className="content__items">
                   {(status === 'loading' ? [...Array(4)] : filteredItems)
-                      .map((item:any, index:number) => {
+                      .map((item:pizzaItemType, index:number) => {
                         return (
                             status === 'loading' ?
                                 <SkeletonPizzaBlock key={index}/> :
                                 <PizzaBlock
-                                    pageIsLoading={status}
                                     key={item.id}
+                                    status={status}
                                     {...item}
                                 />
                         )

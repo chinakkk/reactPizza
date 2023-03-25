@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import SkeletonPizzaBlock from "./SkeletonPizzaBlock";
-import {addToCart, cartSelector, cartSelectorFindById} from "../redux/slices/cartSlice";
+import {addToCart, cartItemType, cartSelector, cartSelectorFindById} from "../redux/slices/cartSlice";
 import {useSelector, useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 
@@ -12,7 +12,10 @@ type PizzaBlockProps = {
     sizes: number[];
     price: number;
     status: string;
+    rating: number;
+    category: number;
 }
+
 
 const PizzaBlock: FC<PizzaBlockProps> = ({
                                              id,
@@ -21,7 +24,9 @@ const PizzaBlock: FC<PizzaBlockProps> = ({
                                              types,
                                              sizes,
                                              price,
-                                             status = 'success'
+                                             status = 'success',
+                                             rating,
+                                             category,
                                          }) => {
     const dispatch = useDispatch()
     const findedPizza = useSelector(cartSelectorFindById(id))
@@ -30,20 +35,27 @@ const PizzaBlock: FC<PizzaBlockProps> = ({
     const [pizzaSize, setPizzaSize] = React.useState(sizes[0])
 
     const onClickAddPizza = () => {
-        dispatch(addToCart({id, name, price, imageUrl}))
+        dispatch(addToCart({id, name, price, imageUrl, type: types[0], size: sizes[0], count: 1}))
     }
+
+    //     category: number;
+    //     rating: number;
+    //     count: number;
     return (
-        <Link to={`/pizza/${id}`}>
             <div className="pizza-block-wrapper">
                 <div className="pizza-block">
                     {status !== 'loading' ? (
                         <>
-                            <img
-                                className="pizza-block__image"
-                                src={imageUrl}
-                                alt="Pizza"
-                            />
-                            <h4 className="pizza-block__title">{name}</h4>
+
+
+                            <Link to={`/pizza/${id}`}>
+                                <img
+                                    className="pizza-block__image"
+                                    src={imageUrl}
+                                    alt="Pizza"
+                                />
+                                <h4 className="pizza-block__title">{name}</h4>
+                            </Link>
                             <div className="pizza-block__selector">
                                 <ul>
                                     {types.map((type) => {
@@ -95,7 +107,6 @@ const PizzaBlock: FC<PizzaBlockProps> = ({
                 </div>
             </div>
 
-        </Link>
 
     )
 }
