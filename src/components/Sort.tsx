@@ -1,9 +1,14 @@
-import React, {FC} from "react";
+import React, {FC, memo} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {filterSelector, setSortValue, sortValue} from "../redux/slices/filterSlice";
+import {filterSelector, setSortValue, sortValueType} from "../redux/slices/filterSlice";
 
-const Sort: FC = () => {
-    const sortArr :sortValue[]= [
+
+type SortProps = {
+    sortValue: sortValueType
+}
+
+const Sort: FC<SortProps> = memo(({sortValue}) => {
+    const sortArr: sortValueType[] = [
         {
             name: 'популярности(по возрастанию)',
             sortProperty: 'rating'
@@ -31,7 +36,6 @@ const Sort: FC = () => {
     ]
     const [sortIsOpened, setSortIsOpened] = React.useState(false)
     const dispatch = useDispatch()
-    const {sortValue} = useSelector(filterSelector)
     const sortRef = React.useRef<HTMLDivElement>(null)
 
     const onClickSort = () => {
@@ -92,5 +96,5 @@ const Sort: FC = () => {
         </div>
 
     )
-}
+})
 export default Sort;

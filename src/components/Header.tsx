@@ -3,7 +3,6 @@ import {Link, useLocation} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
 import {cartItemType} from "../redux/slices/cartSlice";
 import {RootState} from "../redux/store";
-import pizzaLogo from "../../public/img/pizza-logo.svg"
 
 const Header:React.FC = () => {
 
@@ -15,7 +14,7 @@ const Header:React.FC = () => {
             <div className="container">
                 <Link to={'/'}>
                     <div className="header__logo">
-                        <img width="38" src={pizzaLogo} alt="Pizza logo"/>
+                        <img width="38" src="./img/pizza-logo.svg" alt="Pizza logo"/>
                         <div>
                             <h1>React Pizza</h1>
                             <p>самая вкусная пицца во вселенной</p>
